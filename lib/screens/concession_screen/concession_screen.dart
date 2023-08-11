@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tsec_app/models/student_model/student_model.dart';
@@ -28,6 +29,7 @@ class _ConcessionPageState extends ConsumerState<ConcessionPage> {
   final TextEditingController _fromStationController = TextEditingController();
   final TextEditingController _toStationController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
   // final List<DropdownMenuEntry<String>> ticketClass = <DropdownMenuEntry<String>>['First', 'Second', "Third"];
   String? durationValue, classValue, lineValue;
   List<String> classItems = ['I', 'II'];
@@ -63,6 +65,10 @@ class _ConcessionPageState extends ConsumerState<ConcessionPage> {
                 controller: _phoneNumController,
                 label: 'Phone Number',
               ),
+
+              const SizedBox(height: 20),
+              _textFieldDate(
+                  label: "Select Date of Birth", controller: _dobController),
               const SizedBox(height: 20),
               _buildTextField(
                 // TODO: dropdown
@@ -117,11 +123,6 @@ class _ConcessionPageState extends ConsumerState<ConcessionPage> {
               ),
               const SizedBox(height: 20),
               _buildTextField(
-                controller: _toStationController,
-                label: 'To Station',
-              ),
-              const SizedBox(height: 20),
-              _buildTextField(
                 controller: _addressController,
                 label: 'Resident Address',
               ),
@@ -167,6 +168,48 @@ class _ConcessionPageState extends ConsumerState<ConcessionPage> {
             onChanged(newValue.toString());
           }),
     );
+  }
+
+  Widget _textFieldDate({
+    required String label,
+    required TextEditingController controller,
+  }) {
+    return TextField(
+        controller: controller,
+        onTap: () async {
+          final DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1995),
+            lastDate: DateTime.now(),
+          );
+
+          if (picked != null) {
+            setState(() {
+              controller.text = DateFormat('dd-MM-yyyy').format(picked);
+            });
+          }
+        },
+        readOnly: true,
+        decoration: InputDecoration(
+          labelStyle: const TextStyle(
+            color: Colors.grey,
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey[900] ?? Colors.grey),
+          ),
+          disabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white70),
+          ),
+          labelText: label,
+          suffixIcon: const Icon(
+            Icons.calendar_today,
+            color: Colors.grey,
+          ),
+        ));
   }
 
   Widget _buildTextField({
