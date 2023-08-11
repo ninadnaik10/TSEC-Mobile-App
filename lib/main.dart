@@ -27,6 +27,7 @@ import 'screens/tpc_screen.dart';
 import 'utils/department_enum.dart';
 import 'utils/init_get_it.dart';
 import 'utils/themes.dart';
+import 'package:tsec_app/screens/concession_screen/concession_screen.dart';
 
 // To handle all the background messages
 // Currently not used but wont work if not present
@@ -152,6 +153,10 @@ class _TSECAppState extends ConsumerState<TSECApp> {
         GoRoute(
           path: "/profile-page",
           builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: "/railway-concession",
+          builder: (context, state) => const ConcessionPage(),
         ),
       ],
       refreshListenable: ref.watch(appStateProvider),

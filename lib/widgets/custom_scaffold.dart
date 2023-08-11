@@ -167,6 +167,14 @@ class _CustomScaffoldState extends ConsumerState<CustomScaffold>
                   ),
                   title: "Profile",
                 ):Container(),
+                data != null ? DrawerListItem(
+                  onTap: () => _navigate("/railway-concession"),
+                  icon: Image.asset(
+                    ImageAssets.meetingIcon,
+                    width: 22,
+                  ),
+                  title: "Railway Concession",
+                ):Container(),
                 // DrawerListItem(
                 //   onTap: () => _navigate("/profile-page"),
                 //   icon: Image.asset(
